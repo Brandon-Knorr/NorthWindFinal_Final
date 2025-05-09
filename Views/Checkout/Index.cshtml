@@ -1,0 +1,29 @@
+@model Order
+
+<h2>Checkout</h2>
+
+<table>
+    <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Unit Price</th>
+        <th>Total</th>
+    </tr>
+    @foreach (var item in Model.Items)
+    {
+        <tr>
+            <td>@item.Product.ProductName</td>
+            <td>@item.Quantity</td>
+            <td>@item.Product.UnitPrice</td>
+            <td>@(item.Product.UnitPrice * item.Quantity)</td>
+        </tr>
+    }
+</table>
+
+<h3>Grand Total: $@Model.TotalAmount</h3>
+
+<form method="post" action="@Url.Action("CompleteCheckout", "Checkout")">
+    <label for="DiscountCode">Discount Code:</label>
+    <input type="text" name="DiscountCode" />
+    <button type="submit">Apply & Checkout</button>
+</form>
