@@ -15,15 +15,13 @@
             <td>@c.Product.ProductName</td>
             <td>@c.Quantity</td>
             <td>@c.Product.UnitPrice</td>
-            <td>@(c.Product.UnitPrice* c.Quantity)</td>
+            <td>@(c.Quantity* c.Product.UnitPrice)</td>
         </tr>
     }
 </table>
 
-<h3>Grand Total: $(c.Product.UnitPrice* c.Quantity)</h3>
-
 <form method="post" action="@Url.Action("CompleteCheckout", "Checkout")">
-    <label for="DiscountCode">Discount Code:</label>
+    @* <label for="DiscountCode">Discount Code:</label>
     <input type="text" name="DiscountCode" />
-    <button type="submit">Apply & Checkout</button>
+    <button type="submit">Apply & Checkout</button> *@
 </form>
