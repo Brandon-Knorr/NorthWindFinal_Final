@@ -1,4 +1,6 @@
-public class Orders
+using System.ComponentModel.DataAnnotations.Schema;
+
+public class Order
 {
     public int OrderId { get; set; }
     public List<CartItem> Items { get; set; }
