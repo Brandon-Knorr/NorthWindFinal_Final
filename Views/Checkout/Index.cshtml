@@ -1,4 +1,4 @@
-@model Orders
+@model IEnumerable<CartItem>
 
 <h2>Checkout</h2>
 
@@ -9,18 +9,18 @@
         <th>Unit Price</th>
         <th>Total</th>
     </tr>
-    @foreach (var item in Model.Items)
+    @foreach (CartItem c in Model)
     {
         <tr>
-            <td>@item.Product.ProductName</td>
-            <td>@item.Quantity</td>
-            <td>@item.Product.UnitPrice</td>
-            <td>@(item.Product.UnitPrice * item.Quantity)</td>
+            <td>@c.Product.ProductName</td>
+            <td>@c.Quantity</td>
+            <td>@c.Product.UnitPrice</td>
+            <td>@(c.Product.UnitPrice* c.Quantity)</td>
         </tr>
     }
 </table>
 
-<h3>Grand Total: $@Model.TotalAmount</h3>
+<h3>Grand Total: $(c.Product.UnitPrice* c.Quantity)</h3>
 
 <form method="post" action="@Url.Action("CompleteCheckout", "Checkout")">
     <label for="DiscountCode">Discount Code:</label>
