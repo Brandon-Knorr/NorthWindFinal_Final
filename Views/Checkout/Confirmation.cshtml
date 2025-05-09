@@ -1,0 +1,23 @@
+@model List<OrderDetail>
+
+<h2>Order Confirmation</h2>
+
+<table>
+    <tr>
+        <th>Product ID</th>
+        <th>Unit Price</th>
+        <th>Quantity</th>
+        <th>Discount</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.ProductId</td>
+            <td>@item.UnitPrice</td>
+            <td>@item.Quantity</td>
+            <td>@(item.Discount * 100)%</td>
+        </tr>
+    }
+</table>
+
+<h3>Thank you for your purchase!</h3>
