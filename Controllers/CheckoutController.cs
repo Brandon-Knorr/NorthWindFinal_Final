@@ -25,7 +25,7 @@ public class CheckoutController : Controller
 
         decimal totalAmount = cartItems.Sum(item => item.Product.UnitPrice * item.Quantity);
 
-        var order = new Orders
+        var order = new Order
         {
             Items = cartItems,
             TotalAmount = totalAmount,
@@ -46,7 +46,7 @@ public class CheckoutController : Controller
         if (!cartItems.Any()) return RedirectToAction("EmptyCart");
 
         // Create a new Order and save it first
-        var newOrder = new Orders { CustomerId = customerId };
+        var newOrder = new Order { CustomerId = customerId };
         _context.Orders.Add(newOrder);
         _context.SaveChanges(); // Ensure OrderId is assigned
 
