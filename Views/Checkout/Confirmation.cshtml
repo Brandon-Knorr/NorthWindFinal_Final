@@ -1,11 +1,9 @@
-@model List<OrderDetail>
-
 <h2>Order Confirmation</h2>
 
-<table>
+@* <table>
     <tr>
         <th>Product ID</th>
-        <th>Unit Price</th>
+        <th class="text-end">Unit Price</th>
         <th>Quantity</th>
         <th>Discount</th>
     </tr>
@@ -13,11 +11,11 @@
     {
         <tr>
             <td>@item.ProductId</td>
-            <td>@item.UnitPrice</td>
+            <td class="text-end">@item.UnitPrice</td>
             <td>@item.Quantity</td>
             <td>@(item.Discount * 100)%</td>
         </tr>
     }
-</table>
+</table> *@
 
 <h3>Thank you for your purchase!</h3>

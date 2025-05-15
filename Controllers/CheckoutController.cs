@@ -15,7 +15,9 @@ public class CheckoutController : Controller
     [Authorize(Roles = "northwind-customer")]
     public IActionResult Index()
     {
-        return View(_context.CartItems.Include("Product").Where(c => c.CustomerId == _context.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).CustomerId));
+        return View(_context.CartItems.Include("Product")
+                .Where(c => c.CustomerId == _context.Customers
+                .FirstOrDefault(c => c.Email == User.Identity.Name).CustomerId));
     }
 
     [HttpPost]
@@ -32,46 +34,29 @@ public class CheckoutController : Controller
         return RedirectToAction("Index");
     }
 
-    // [HttpPost]
-    // public IActionResult CompleteCheckout()
-    // {
-    //     int customerId = 1; // Replace with actual user ID
-    //     string discountCode = Request.Form["DiscountCode"];
-    //     decimal discountRate = discountCode == "SAVE10" ? 0.1m : 0m; // Apply 10% discount
+    [HttpPost]
+    [Authorize(Roles = "northwind-customer")]
+    public IActionResult CompleteCheckout()
+    {
+        var cartItems = _context.CartItems.Where(c => c.CustomerId == _context.Customers
+                .FirstOrDefault(c => c.Email == User.Identity.Name).CustomerId);
+        if (!cartItems.Any()) return RedirectToAction("EmptyCart");
 
-    //     var cartItems = _context.CartItems.Where(c => c.CustomerId == customerId).Include(c => c.Product).ToList();
-    //     if (!cartItems.Any()) return RedirectToAction("EmptyCart");
+        // TODO: Create a new Order and save it first
 
-    //     // Create a new Order and save it first
-    //     var newOrder = new Order { CustomerId = customerId };
-    //     _context.Orders.Add(newOrder);
-    //     _context.SaveChanges(); // Ensure OrderId is assigned
 
-    //     // Save order details
-    //     foreach (var item in cartItems)
-    //     {
-    //         var orderDetail = new OrderDetail
-    //         {
-    //             OrderId = newOrder.OrderId, // Use generated OrderId
-    //             ProductId = item.ProductId,
-    //             UnitPrice = item.Product.UnitPrice,
-    //             Quantity = item.Quantity,
-    //             Discount = discountRate
-    //         };
+        // TODO: Save order details
 
-    //         _context.OrderDetails.Add(orderDetail);
-    //     }
 
-    //     // Remove items from CartItem after checkout
-    //     _context.CartItems.RemoveRange(cartItems);
-    //     _context.SaveChanges();
+        // Remove items from CartItem after checkout
+        _context.CartItems.RemoveRange(cartItems);
+        _context.SaveChanges();
 
-    //     return RedirectToAction("Confirmation", new { orderId = newOrder.OrderId });
-    // }
+        return RedirectToAction("Confirmation");
+    }
 
-    // public IActionResult Confirmation(int orderId)
-    // {
-    //     var orderDetails = _context.OrderDetails.Where(od => od.OrderId == orderId).ToList();
-    //     return View(orderDetails);
-    // }
+    public IActionResult Confirmation()
+    {
+        return View();
+    }
 }
