@@ -16,8 +16,15 @@
             <td>@c.Quantity</td>
             <td>@c.Product.UnitPrice</td>
             <td>@(c.Quantity* c.Product.UnitPrice)</td>
+            <td>
+                <form method="post" action="@Url.Action("RemoveFromCart", "Checkout")">
+                    <input type="hidden" name="cartItemId" value="@c.CartItemId" />
+                    <button type="submit">Remove</button>
+                </form>
+            </td>
         </tr>
     }
+
 </table>
 
 <form method="post" action="@Url.Action("CompleteCheckout", "Checkout")">

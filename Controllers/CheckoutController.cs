@@ -18,6 +18,20 @@ public class CheckoutController : Controller
         return View(_context.CartItems.Include("Product").Where(c => c.CustomerId == _context.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).CustomerId));
     }
 
+    [HttpPost]
+    [Authorize(Roles = "northwind-customer")]
+    public IActionResult RemoveFromCart(int cartItemId)
+    {
+        var cartItem = _context.CartItems.FirstOrDefault(c => c.CartItemId == cartItemId);
+        if (cartItem != null)
+        {
+            _context.CartItems.Remove(cartItem);
+            _context.SaveChanges();
+        }
+
+        return RedirectToAction("Index");
+    }
+
     // [HttpPost]
     // public IActionResult CompleteCheckout()
     // {
