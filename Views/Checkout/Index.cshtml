@@ -10,18 +10,26 @@
             <th class="text-end">Quantity</th>
             <th class="text-end">Unit Price</th>
             <th class="text-end">Total</th>
+            <th></th>
         </tr>
         @foreach (CartItem c in Model)
         {
             <tr>
                 <td>@c.Product.ProductName</td>
-                <td class="text-end">@c.Quantity</td>
+                <td class="text-end">
+                    <form method="post" action="@Url.Action("UpdateQuantity", "Checkout")" style="display:inline;">
+                        <input type="hidden" name="cartItemId" value="@c.CartItemId" />
+                        <input type="number" name="quantity" value="@c.Quantity" min="1" class="form-control d-inline"
+                            style="width: 70px;" />
+                        <button class="btn btn-secondary btn-sm" type="submit">Update</button>
+                    </form>
+                </td>
                 <td class="text-end">@string.Format("{0:N2}", c.Product.UnitPrice)</td>
                 <td class="text-end">@string.Format("{0:N2}", (c.Quantity * c.Product.UnitPrice))</td>
                 <td>
                     <form method="post" action="@Url.Action("RemoveFromCart", "Checkout")">
                         <input type="hidden" name="cartItemId" value="@c.CartItemId" />
-                        <button type="submit">Remove</button>
+                        <button class="btn btn-danger" type="submit">Remove</button>
                     </form>
                 </td>
             </tr>
@@ -29,7 +37,7 @@
 
     </table>
     <form method="post" action="@Url.Action("CompleteCheckout", "Checkout")">
-        <button class="btn" type="submit">Checkout</button>
+        <button class="btn btn-primary" type="submit">Checkout</button>
     </form>
 }
 else

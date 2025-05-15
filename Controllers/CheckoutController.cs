@@ -59,4 +59,16 @@ public class CheckoutController : Controller
     {
         return View();
     }
+
+    public IActionResult UpdateQuantity(int cartItemId, int quantity)
+    {
+        var cartItem = _context.CartItems.FirstOrDefault(c => c.CartItemId == cartItemId);
+        if (cartItem != null && quantity > 0)
+        {
+            cartItem.Quantity = quantity;
+            _context.SaveChanges();
+        }
+
+        return RedirectToAction("Index");
+    }
 }
